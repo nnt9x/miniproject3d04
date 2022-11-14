@@ -20,7 +20,7 @@
                     </a>
                 </td>
                 <td>
-                    {!! $product->description !!} 
+                    {!! $product->description !!}
                 </td>
                 <td>
                     <a href="{{url('/admin/products/'.$product->id.'/edit')}}">Sửa</a>

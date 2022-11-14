@@ -36,11 +36,44 @@ class ProductController extends Controller
 
         // Insert
         DB::table('products')->insert(
-            ['name'=>$name,'price'=>$price,'image'=>$image,'description'=>$description]
+            ['name' => $name, 'price' => $price, 'image' => $image, 'description' => $description]
         );
         // Chuyen huong ve trang home
         return redirect()->route('home');
 
+    }
 
+    function show($id)
+    {
+        // Lay ra thong tin san pham co thong tin id = $id
+
+        // Neu khong co -> Khong co thong tin san pham
+        $product = DB::table('products')->find($id);
+//        dd($product);
+        // Tra du lieu ve view
+        return view('product.detail', ['product' => $product]);
+    }
+
+    // View
+    function edit($id)
+    {
+        $product = DB::table('products')->find($id);
+        if ($product == null) {
+            return redirect()->route('error');
+        }
+        return view('product.edit', ['product' => $product]);
+    }
+
+    // ko co giao dien
+    function update(Request $request, $id)
+    {
+        $name = $request->get('productName');
+        $price = $request->get('productPrice');
+        $image = $request->get('productImageURL');
+        $description = $request->get('productDescription');
+
+        DB::table('products')->where('id', $id)
+            ->update(['name' => $name, 'price' => $price, 'image' => $image, 'description' => $description]);
+        return redirect()->back();
     }
 }
